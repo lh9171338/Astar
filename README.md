@@ -1,5 +1,5 @@
 # 1. Introduction
->>This package can plan path by A star algorithm.
+>>This depository is a A star algorithm ROS package.
 
 # 2. Usage
 ## 2.1 Subscribed Topics  
@@ -38,4 +38,4 @@ roslaunch astar astar.launch
 ```
 
 # 3. Result  
-![image](https://raw.githubusercontent.com/lh9171338/ROS/Astar/results/result.png)
+![image](https://github.com/lh9171338/Astar/edit/master//results/result.png)
