@@ -41,4 +41,4 @@ roslaunch astar astar.launch
 ![image](https://github.com/lh9171338/Astar/blob/master/results/result.png)
 
 # 4. More resources
-- [Github link](https://github.com/lh9171338/Outline)
+- [Github Link](https://github.com/lh9171338/Outline)
