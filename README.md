@@ -1,5 +1,5 @@
 # 1. Introduction
->>This depository is a A star algorithm ROS package.
+>>This depository is a ROS package of A star algorithm.
 
 # 2. Usage
 ## 2.1 Subscribed Topics  
