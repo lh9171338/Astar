@@ -38,4 +38,7 @@ roslaunch astar astar.launch
 ```
 
 # 3. Result  
-![image](https://github.com/lh9171338/Astar/edit/master//results/result.png)
+![image](https://github.com/lh9171338/Astar/blob/master/results/result.png)
+
+# 4. More resources
+>>Github link: https://github.com/lh9171338/Outline
