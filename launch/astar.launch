@@ -1,0 +1,18 @@
+<!-- -*- mode: XML -*- -->
+<launch>
+
+    ################ map server ################
+    <node pkg="map_server" name="map_server" type="map_server" args="$(find astar)/maps/gmapping-005.yaml"/>
+
+    ################ start astar node ################
+    <node pkg="astar" type="astar" name="astar" output="screen">
+        <param name="Euclidean" value="true"/>
+        <param name="OccupyThresh" value="-1"/>
+        <param name="InflateRadius" value="0.25"/>
+        <param name="rate" value="10"/>
+    </node>
+
+    ################ start rviz ################
+    <node pkg="rviz" type="rviz" name="rviz" args="-d $(find astar)/rviz/astar.rviz"/>
+
+</launch>
