@@ -1,3 +1,6 @@
+# **<p align="center">Astar</p>**
+[<img height="25" src="https://github.com/lh9171338/Outline/blob/master/icon.jpg"/>](https://github.com/lh9171338/Outline)  
+  
 # 1. Introduction
 >>This repository is a ROS package of A star algorithm.
 
@@ -39,6 +42,3 @@ roslaunch astar astar.launch
 
 # 3. Result  
 ![image](https://github.com/lh9171338/Astar/blob/master/results/result.png)
-
-# 4. More resources
-- [Github Link](https://github.com/lh9171338/Outline)
