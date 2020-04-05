@@ -1,5 +1,4 @@
-# **<p align="center">Astar</p>**
-[<img height="25" src="https://github.com/lh9171338/Outline/blob/master/icon.jpg"/>](https://github.com/lh9171338/Outline)  
+# [<img height="25" src="https://github.com/lh9171338/Outline/blob/master/icon.jpg"/>](https://github.com/lh9171338/Outline)**Astar**
   
 # 1. Introduction
 >>This repository is a ROS package of A star algorithm.
