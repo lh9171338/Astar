@@ -1,0 +1,18 @@
+<!-- -*- mode: XML -*- -->
+<launch>
+
+    ################ Map server ################
+    <node pkg="map_server" name="map_server" type="map_server" args="$(find astar)/map/local_roadmap.yaml"/>
+
+    ################ globalplanner node ################
+    <node pkg="astar" name="globalplanner" type="globalplanner_node.py" output="screen"> 
+        <param name="rate" value="10"/>
+        <param name="euclidean" value="false"/>
+        <param name="occupyThresh" value="-1"/>
+        <param name="inflateRadius" value="3.0"/>        
+    </node>
+
+    ################ rviz node ################
+    <node pkg="rviz" type="rviz" name="rviz" args="-d $(find astar)/rviz/astar.rviz"/>
+
+</launch>
