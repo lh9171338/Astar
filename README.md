@@ -24,16 +24,16 @@ nav_path ([nav_msgs/Path](http://docs.ros.org/api/nav_msgs/html/msg/Path.html))
 >>Publish the navigation path via this topic.
 
 ## 2.4 Parameters  
-~euclidean (bool; default: "true")  
+~euclidean (bool, default: "true")  
 >>Using Euclidean distance or Manhattan distance When calculating the H value.
 
-~occupyThresh (int; default: -1)  
+~occupyThresh (int, default: -1)  
 >>Threshold of the image binarization. When OccupyThresh is less than zero (OccupyThresh < 0), using Otsu method to generate threshold.
 
-~inflateRadius (double; defalut: -1)  
+~inflateRadius (double, defalut: -1)  
 >>InflateRadius is the inflation radius (unit: m). When InflateRadius is less than or equal to zero (InflateRadius <= 0), no inflation operation is taken.
 
-~rate (int; default: 10)  
+~rate (int, default: 10)  
 >>The rate of publishing inflate_map topic.
 
 ## 2.5 Example  
