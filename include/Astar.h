@@ -63,6 +63,13 @@ public:
     void DrawPath(Mat& _Map, vector<Point>& path, InputArray Mask = noArray(), Scalar color = Scalar(0, 0, 255),
             int thickness = 1, Scalar maskcolor = Scalar(255, 255, 255));
 
+    inline int point2index(Point point) {
+        return point.y * Map.cols + point.x;
+    }
+    inline Point index2point(int index) {
+        return Point(int(index / Map.cols), index % Map.cols);
+    }
+
 private:
     void MapProcess(Mat& Mask);
     Node* FindPath();
@@ -78,7 +85,7 @@ private:
     AstarConfig config;
 
     priority_queue<pair<int, Point>, vector<pair<int, Point>>, cmp> OpenList; // open list
-    unordered_map<Point, Node*> OpenDict; // open dict
+    unordered_map<int, Node*> OpenDict; // open dict
     vector<Node*> PathList;  // path list
 };
 

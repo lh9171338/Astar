@@ -153,6 +153,7 @@ int main(int argc, char * argv[])
     {
         if(start_flag)
         {
+            double start_time = ros::Time::now().toSec();
             // Start planning path
             vector<Point> PathList;
             astar.PathPlanning(startPoint, targetPoint, PathList);
@@ -175,8 +176,9 @@ int main(int argc, char * argv[])
                     path.poses.push_back(pose_stamped);
                 }
                 path_pub.publish(path);
+                double end_time = ros::Time::now().toSec();
 
-                ROS_INFO("Find a valid path successfully");
+                ROS_INFO("Find a valid path successfully! Use %f s", end_time - start_time);
             }
             else
             {

@@ -62,16 +62,16 @@ void Astar::MapProcess(Mat& Mask)
     // Transform RGB to gray image
     if(_Map.channels() == 3)
     {
-        cvtColor(_Map.clone(), _Map, CV_BGR2GRAY);
+        cvtColor(_Map.clone(), _Map, cv::COLOR_BGR2GRAY);
     }
 
     // Binarize
     if(config.OccupyThresh < 0)
     {
-        threshold(_Map.clone(), _Map, 0, 255, CV_THRESH_OTSU);
+        threshold(_Map.clone(), _Map, 0, 255, cv::THRESH_OTSU);
     } else
     {
-        threshold(_Map.clone(), _Map, config.OccupyThresh, 255, CV_THRESH_BINARY);
+        threshold(_Map.clone(), _Map, config.OccupyThresh, 255, cv::THRESH_BINARY);
     }
 
     // Inflate
@@ -110,11 +110,10 @@ Node* Astar::FindPath()
     Mat _LabelMap = LabelMap.clone();
 
     // Add startPoint to OpenList
-    priority_queue<pair<int, Point>, vector<pair<int, Point>>, cmp> null_queue;
-    swap(null_queue, OpenList);
     Node* startPointNode = new Node(startPoint);
     OpenList.push(pair<int, Point>(startPointNode->F, startPointNode->point));
-    OpenDict[startPointNode->point] = startPointNode;
+    int index = point2index(startPointNode->point);
+    OpenDict[index] = startPointNode;
     _LabelMap.at<uchar>(startPoint.y, startPoint.x) = inOpenList;
 
     while(!OpenList.empty())
@@ -122,8 +121,10 @@ Node* Astar::FindPath()
         // Find the node with least F value
         Point CurPoint = OpenList.top().second;
         OpenList.pop();
-        Node* CurNode = OpenDict[CurPoint];
-        OpenDict.erase(CurPoint);
+        int index = point2index(CurPoint);
+        Node* CurNode = OpenDict[index];
+        OpenDict.erase(index);
+
         int curX = CurPoint.x;
         int curY = CurPoint.y;
         _LabelMap.at<uchar>(curY, curX) = inCloseList;
@@ -182,13 +183,15 @@ Node* Astar::FindPath()
                     node->H = H;
                     node->F = F;
                     OpenList.push(pair<int, Point>(node->F, node->point));
-                    OpenDict[node->point] = node;
+                    int index = point2index(node->point);
+                    OpenDict[index] = node;
                     _LabelMap.at<uchar>(y, x) = inOpenList;
                 }
                 else // _LabelMap.at<uchar>(y, x) == inOpenList
                 {
                     // Find the node
-                    Node* node = OpenDict[Point(x, y)];
+                    int index = point2index(Point(x, y));
+                    Node* node = OpenDict[index];
                     if(G < node->G)
                     {
                         node->G = G;
@@ -223,6 +226,16 @@ void Astar::GetPath(Node* TailNode, vector<Point>& path)
         path.push_back(PathList.back()->point);
         PathList.pop_back();
     }
+
+    // Release memory
+    while(OpenList.size()) {
+        Point CurPoint = OpenList.top().second;
+        OpenList.pop();
+        int index = point2index(CurPoint);
+        Node* CurNode = OpenDict[index];
+        delete CurNode;
+    }
+    OpenDict.clear();
 }
 
 }
