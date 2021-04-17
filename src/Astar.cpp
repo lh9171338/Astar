@@ -110,27 +110,22 @@ Node* Astar::FindPath()
     Mat _LabelMap = LabelMap.clone();
 
     // Add startPoint to OpenList
-    OpenList.clear();
-    OpenList.push_back(new Node(startPoint));
+    priority_queue<pair<int, Point>, vector<pair<int, Point>>, cmp> null_queue;
+    swap(null_queue, OpenList);
+    Node* startPointNode = new Node(startPoint);
+    OpenList.push(pair<int, Point>(startPointNode->F, startPointNode->point));
+    OpenDict[startPointNode->point] = startPointNode;
     _LabelMap.at<uchar>(startPoint.y, startPoint.x) = inOpenList;
 
     while(!OpenList.empty())
     {
         // Find the node with least F value
-        Node* CurNode = OpenList[0];
-        int index = 0;
-        int length = OpenList.size();
-        for(int i = 0;i < length;i++)
-        {
-            if(OpenList[i]->F < CurNode->F)
-            {
-                CurNode = OpenList[i];
-                index = i;
-            }
-        }
-        int curX = CurNode->point.x;
-        int curY = CurNode->point.y;
-        OpenList.erase(OpenList.begin() + index);       // Delete CurNode from OpenList
+        Point CurPoint = OpenList.top().second;
+        OpenList.pop();
+        Node* CurNode = OpenDict[CurPoint];
+        OpenDict.erase(CurPoint);
+        int curX = CurPoint.x;
+        int curY = CurPoint.y;
         _LabelMap.at<uchar>(curY, curX) = inCloseList;
 
         // Determine whether arrive the target point
@@ -151,32 +146,13 @@ Node* Astar::FindPath()
             if(_LabelMap.at<uchar>(y, x) == free || _LabelMap.at<uchar>(y, x) == inOpenList)
             {
                 // Determine whether a diagonal line can pass
-                bool walkable = true;
-                if(y == curY - 1 && _LabelMap.at<uchar>(curY - 1, curX) == obstacle)
-                {
-                    walkable = false;
-                }
-                else if(y == curY + 1 && _LabelMap.at<uchar>(curY + 1, curX) == obstacle)
-                {
-                    walkable = false;
-                }
-
-                if(x == curX - 1 && _LabelMap.at<uchar>(curY, curX - 1) == obstacle)
-                {
-                    walkable = false;
-                }
-                else if(x == curX + 1 && _LabelMap.at<uchar>(curY, curX + 1) == obstacle)
-                {
-                    walkable = false;
-                }
-                if(!walkable)
-                {
+                int dist1 = abs(neighbor.at<char>(k, 0)) + abs(neighbor.at<char>(k, 1));
+                if(dist1 == 2 && _LabelMap.at<uchar>(y, curX) == obstacle && _LabelMap.at<uchar>(curY, x) == obstacle)
                     continue;
-                }
 
                 // Calculate G, H, F value
                 int addG, G, H, F;
-                if(abs(x - curX) == 1 && abs(y - curY) == 1)
+                if(dist1 == 2)
                 {
                     addG = 14;
                 }
@@ -205,22 +181,14 @@ Node* Astar::FindPath()
                     node->G = G;
                     node->H = H;
                     node->F = F;
-                    OpenList.push_back(node);
+                    OpenList.push(pair<int, Point>(node->F, node->point));
+                    OpenDict[node->point] = node;
                     _LabelMap.at<uchar>(y, x) = inOpenList;
                 }
                 else // _LabelMap.at<uchar>(y, x) == inOpenList
                 {
                     // Find the node
-                    Node* node = NULL;
-                    int length = OpenList.size();
-                    for(int i = 0;i < length;i++)
-                    {
-                        if(OpenList[i]->point.x ==  x && OpenList[i]->point.y ==  y)
-                        {
-                            node = OpenList[i];
-                            break;
-                        }
-                    }
+                    Node* node = OpenDict[Point(x, y)];
                     if(G < node->G)
                     {
                         node->G = G;

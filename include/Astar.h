@@ -6,6 +6,8 @@
 #define ASTAR_H
 
 #include <iostream>
+#include <queue>
+#include <unordered_map>
 #include <opencv2/opencv.hpp>
 
 using namespace std;
@@ -30,6 +32,15 @@ struct Node{
     {
     }
 };
+
+struct cmp
+{
+    bool operator() (pair<int, Point> a, pair<int, Point> b) // Comparison function for priority queue
+    {
+        return a.first > b.first; // min heap
+    }
+};
+
 
 struct AstarConfig{
     bool Euclidean;         // true/false
@@ -65,7 +76,9 @@ private:
 
     Mat LabelMap;
     AstarConfig config;
-    vector<Node*> OpenList;  // open list
+
+    priority_queue<pair<int, Point>, vector<pair<int, Point>>, cmp> OpenList; // open list
+    unordered_map<Point, Node*> OpenDict; // open dict
     vector<Node*> PathList;  // path list
 };
 
