@@ -70,7 +70,7 @@ void MapCallback(const nav_msgs::OccupancyGrid& msg)
     OccGridMask.header.stamp = ros::Time::now();
     OccGridMask.header.frame_id = "map";
     OccGridMask.info = msg.info;
-	OccGridMask.data.clear();
+    OccGridMask.data.clear();
     for(int i=0;i<height;i++)
     {
         for(int j=0;j<width;j++)
